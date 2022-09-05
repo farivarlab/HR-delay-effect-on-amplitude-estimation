@@ -1,0 +1,33 @@
+clear all
+close all
+
+%% Get an hemodynamic response model
+% SPM12's hrf (https://www.fil.ion.ucl.ac.uk/spm/)
+RT = 1;
+p = [];
+T = 16;
+[hrf,p] = spm_hrf(RT,p,T);
+dt  = RT/T;
+t = (0:dt:((length(hrf)-1)*dt))';
+% Delay it by 200ms
+nt = 3;
+delay = dt*nt;
+hrf2 = zeros(size(hrf));
+hrf2(1+nt:end) = hrf(1:length(hrf2(1+nt:end)));
+% Plot both
+figure('WindowStyle','docked');
+plot(t,hrf); hold on
+plot(t,hrf2)
+
+
+delay=0.2;
+delay/dt
+
+p
+
+
+
+
+u   = [0:ceil(p(7)/dt)] - p(6)/dt;
+t = 0:RT:(T*RT);
+
